@@ -1,0 +1,12 @@
+[package]
+name = "plot"
+version = "0.1.0"
+edition = "2021"
+authors = ["Geir Isene <g@isene.com>"]
+description = "Terminal charts with Unicode and ANSI colors. Sparklines, line, candlestick, and bar charts."
+license = "Unlicense"
+repository = "https://github.com/isene/plot"
+keywords = ["terminal", "chart", "sparkline", "tui", "unicode"]
+categories = ["command-line-interface", "visualization"]
+
+[dependencies]
