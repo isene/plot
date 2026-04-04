@@ -1,5 +1,5 @@
 [package]
-name = "plot"
+name = "fe2o3-plot"
 version = "0.1.0"
 edition = "2021"
 authors = ["Geir Isene <g@isene.com>"]
