@@ -9,4 +9,7 @@ repository = "https://github.com/isene/plot"
 keywords = ["terminal", "chart", "sparkline", "tui", "unicode"]
 categories = ["command-line-interface", "visualization"]
 
+[lib]
+name = "plot"
+
 [dependencies]

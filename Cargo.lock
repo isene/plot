@@ -3,5 +3,5 @@
 version = 4
 
 [[package]]
-name = "plot"
+name = "fe2o3-plot"
 version = "0.1.0"
