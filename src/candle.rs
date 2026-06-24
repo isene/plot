@@ -1,7 +1,7 @@
 //! Candlestick (OHLC) charts for financial data
 
 use crate::canvas::Canvas;
-use crate::color::{colorize, format_num};
+use crate::color::format_num;
 
 const UP_COLOR: u8 = 82;   // green
 const DOWN_COLOR: u8 = 196; // red
