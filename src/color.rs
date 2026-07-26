@@ -1,5 +1,7 @@
 //! ANSI color utilities
 
+use crust::style;
+
 /// Color specification: 256-color code, RGB hex, or named color
 #[derive(Clone, Copy)]
 pub enum Color {
@@ -36,16 +38,16 @@ impl Color {
     /// ANSI foreground escape code (without reset)
     pub fn fg_code(&self) -> String {
         match self {
-            Color::Index(c) => format!("\x1b[38;5;{}m", c),
-            Color::Rgb(r, g, b) => format!("\x1b[38;2;{};{};{}m", r, g, b),
+            Color::Index(c) => style::set_fg(*c),
+            Color::Rgb(r, g, b) => style::set_fg_rgb(*r, *g, *b),
         }
     }
 
     /// ANSI background escape code (without reset)
     pub fn bg_code(&self) -> String {
         match self {
-            Color::Index(c) => format!("\x1b[48;5;{}m", c),
-            Color::Rgb(r, g, b) => format!("\x1b[48;2;{};{};{}m", r, g, b),
+            Color::Index(c) => style::set_bg(*c),
+            Color::Rgb(r, g, b) => style::set_bg_rgb(*r, *g, *b),
         }
     }
 }
@@ -56,12 +58,12 @@ impl From<u8> for Color {
 
 /// Wrap text in ANSI foreground color (256-color index)
 pub fn colorize(text: &str, color: u8) -> String {
-    format!("\x1b[38;5;{}m{}\x1b[0m", color, text)
+    style::styled(text, Some(color), None, "")
 }
 
 /// Wrap text in ANSI foreground color (Color enum)
 pub fn colorize_color(text: &str, color: &Color) -> String {
-    format!("{}{}\x1b[0m", color.fg_code(), text)
+    format!("{}{}{}", color.fg_code(), text, style::RESET)
 }
 
 /// Format a number for axis labels with adaptive precision

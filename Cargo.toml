@@ -13,3 +13,6 @@ categories = ["command-line-interface", "visualization"]
 name = "plot"
 
 [dependencies]
+# Pinned: the ANSI helpers used here landed in 0.1.43, so a publish
+# must fail loudly until that version is on crates.io.
+crust = { version = "0.1.43", path = "../crust", package = "fe2o3-crust" }

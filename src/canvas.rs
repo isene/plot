@@ -1,6 +1,8 @@
 //! Canvas - grid-based character renderer with color support
 //! BrailleCanvas - high-resolution sub-cell drawing using Unicode braille
 
+use crust::style;
+
 /// Simple character grid with per-cell color
 pub struct Canvas {
     pub width: usize,
@@ -38,13 +40,13 @@ impl Canvas {
                 if *fg != cur_fg || *bg != cur_bg {
                     // Only emit reset + new codes when color actually changes
                     if has_color {
-                        line.push_str("\x1b[0m");
+                        line.push_str(style::RESET);
                     }
                     let mut codes = Vec::new();
                     if let Some(f) = fg { codes.push(format!("38;5;{}", f)); }
                     if let Some(b) = bg { codes.push(format!("48;5;{}", b)); }
                     if !codes.is_empty() {
-                        line.push_str(&format!("\x1b[{}m", codes.join(";")));
+                        line.push_str(&style::sgr(&codes.join(";")));
                         has_color = true;
                     } else {
                         has_color = false;
@@ -55,7 +57,7 @@ impl Canvas {
                 line.push_str(ch);
             }
             if has_color {
-                line.push_str("\x1b[0m");
+                line.push_str(style::RESET);
             }
             lines.push(line);
         }

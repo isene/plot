@@ -12,6 +12,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: plot
+
+      - name: Checkout crust
+        uses: actions/checkout@v4
+        with:
+          repository: isene/crust
+          path: crust
+
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo check
+        working-directory: plot
       - run: cargo test
+        working-directory: plot
