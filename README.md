@@ -172,7 +172,7 @@ println!("{}", bc.render());
 | `spark()` | `spark(values, color)` | Returns `String` |
 | `spark_color()` | `spark_color(values, color)` | Color enum variant |
 | `Bar` | `Bar::new(width, orientation)` | `add(label, value, color)`, `set_height(h)`, `render()` |
-| `Line` | `Line::new(width, height)` | `add(values, color, label)`, `render()` |
+| `Line` | `Line::new(width, height)` | `add(values, color, label)`, `y_range(min, max)`, `render()` |
 | `Candle` | `Candle::new(width, height)` | `add(bars)`, `render()` |
 | `Canvas` | `Canvas::new(w, h)` | `set(x,y,ch,fg,bg)`, `get(x,y)`, `render()` |
 | `BrailleCanvas` | `BrailleCanvas::new(w, h)` | `set_dot(px,py,fg)`, `px_width()`, `px_height()`, `render()` |

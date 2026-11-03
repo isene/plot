@@ -13,11 +13,12 @@ pub struct Line {
     pub width: usize,
     pub height: usize,
     series: Vec<Series>,
+    span: Option<(f64, f64)>,
 }
 
 impl Line {
     pub fn new(width: usize, height: usize) -> Self {
-        Line { width, height, series: Vec::new() }
+        Line { width, height, series: Vec::new(), span: None }
     }
 
     pub fn add(&mut self, values: &[f64], color: u8, label: Option<&str>) {
@@ -26,6 +27,13 @@ impl Line {
             color,
             label: label.map(|s| s.to_string()),
         });
+    }
+
+    /// Keep `min` and `max` on the Y axis even when the data stays inside
+    /// them: from zero, say, so a flat series sits at its height and not
+    /// on the top edge.
+    pub fn y_range(&mut self, min: f64, max: f64) {
+        self.span = Some((min, max));
     }
 
     pub fn render(&self) -> String {
@@ -39,6 +47,10 @@ impl Line {
                 if v < data_min { data_min = v; }
                 if v > data_max { data_max = v; }
             }
+        }
+        if let Some((lo, hi)) = self.span {
+            data_min = data_min.min(lo);
+            data_max = data_max.max(hi);
         }
         let data_range = if data_max == data_min { 1.0 } else { data_max - data_min };
 
@@ -138,5 +150,21 @@ fn bresenham<F: FnMut(usize, usize)>(x0: usize, y0: usize, x1: usize, y1: usize,
         let e2 = 2 * err;
         if e2 >= dy { err += dy; x0 += sx; }
         if e2 <= dx { err += dx; y0 += sy; }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn a_flat_series_from_zero_sits_mid_height() {
+        let mut l = Line::new(20, 4);
+        l.add(&[5.0, 5.0, 5.0], 1, None);
+        assert!(l.render().lines().next().unwrap().contains('5'), "without a range 5 is the top");
+        l.y_range(0.0, 10.0);
+        let r = l.render();
+        assert!(r.lines().next().unwrap().contains("10.0"));
+        assert!(r.lines().last().unwrap().contains("0.00"));
     }
 }

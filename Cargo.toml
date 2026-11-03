@@ -1,6 +1,6 @@
 [package]
 name = "fe2o3-plot"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Geir Isene <g@isene.com>"]
 description = "Terminal charts with Unicode and ANSI colors. Sparklines, line, candlestick, and bar charts."
